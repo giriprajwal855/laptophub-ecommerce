@@ -1,0 +1,30 @@
+<%- include('head') %>
+
+<% if (users.length === 0) { %>
+  <div class="empty-state">
+    <p>No registered users yet.</p>
+  </div>
+<% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Joined</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= u.phone %></td>
+          <td><%= new Date(u.createdAt).toLocaleDateString() %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('foot') %>

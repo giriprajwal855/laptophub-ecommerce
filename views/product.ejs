@@ -1,0 +1,77 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <% const pbrand = brands.find(b => b.name === product.brand); %>
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="/">Home</a> › <a href="/brand/<%= pbrand.slug %>"><%= product.brand %></a> › <span><%= product.name %></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="product-detail">
+        <div class="pd-img-main">
+          <% if (product.badge) { %><span class="card-badge"><%= product.badge %></span><% } %>
+          <img src="<%= product.image %>" alt="<%= product.name %>" onerror="this.src='/images/products/pexels-374074.jpg'" />
+        </div>
+
+        <div class="pd-info">
+          <div class="pd-top">
+            <span class="card-brand" style="color: <%= pbrand.color %>"><%= product.brand %></span>
+            <span class="card-rating">★ <%= product.rating.toFixed(1) %> / 5</span>
+          </div>
+          <h1 class="pd-title"><%= product.name %></h1>
+          <p class="pd-category">Category: <strong><%= product.category %></strong></p>
+
+          <div class="pd-price">
+            <span class="price"><%= formatPrice(product.price) %></span>
+            <% if (product.oldPrice) { %>
+              <span class="old-price"><%= formatPrice(product.oldPrice) %></span>
+              <span class="save-tag">Save <%= formatPrice(product.oldPrice - product.price) %></span>
+            <% } %>
+          </div>
+
+          <p class="pd-desc"><%= product.description %></p>
+
+          <div class="pd-specs">
+            <% Object.entries(product.specs).forEach(([k, v]) => { %>
+              <div class="spec-row"><span><%= k %></span><strong><%= v %></strong></div>
+            <% }) %>
+          </div>
+
+          <div class="pd-actions">
+            <div class="qty">
+              <button type="button" class="qty-btn" data-dir="-">−</button>
+              <input type="number" id="qty" value="1" min="1" max="99" readonly />
+              <button type="button" class="qty-btn" data-dir="+">＋</button>
+            </div>
+            <button class="btn btn-primary btn-lg add-cart" data-id="<%= product.id %>">Add to Cart</button>
+          </div>
+
+          <div class="pd-extra">
+            <div><span>🚚</span> Free delivery on orders over Rs. 150,000</div>
+            <div><span>🔒</span> Secure payment via Khalti &amp; eSewa</div>
+            <div><span>🛡️</span> Official brand warranty</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>More from <%= product.brand %></h2>
+        <a href="/brand/<%= pbrand.slug %>" class="see-all">View all →</a>
+      </div>
+      <div class="product-grid">
+        <% related.forEach(p => { %>
+          <%- include('partials/product-card', { p }) %>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

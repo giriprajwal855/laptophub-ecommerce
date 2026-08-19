@@ -1,0 +1,67 @@
+<%- include('partials/header', { title, q }) %>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1><%= title %></h1>
+      <p><%= list.length %> laptops from the world's top manufacturers.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="shop-layout">
+        <aside class="filters">
+          <div class="filter-group">
+            <h4>Brand</h4>
+            <a href="/shop" class="<%= !activeBrand ? 'active' : '' %>">All Brands</a>
+            <% brands.forEach(b => { %>
+              <a href="/shop?brand=<%= b.name.toLowerCase() %>" class="<%= activeBrand === b.name ? 'active' : '' %>">
+                <span class="brand-dot" style="background:<%= b.color %>"></span><%= b.name %>
+              </a>
+            <% }) %>
+          </div>
+          <div class="filter-group">
+            <h4>Category</h4>
+            <a href="/shop" class="<%= !activeCat ? 'active' : '' %>">All</a>
+            <% categories.forEach(c => { %>
+              <a href="/shop?cat=<%= encodeURIComponent(c) %>" class="<%= activeCat === c ? 'active' : '' %>"><%= c %></a>
+            <% }) %>
+          </div>
+        </aside>
+
+        <div class="shop-main">
+          <div class="toolbar">
+            <span class="results-count">Showing <strong><%= list.length %></strong> laptops</span>
+            <form action="/shop" method="get" class="sort-form">
+              <% if (activeBrand) { %><input type="hidden" name="brand" value="<%= activeBrand.toLowerCase() %>" /><% } %>
+              <% if (activeCat) { %><input type="hidden" name="cat" value="<%= activeCat %>" /><% } %>
+              <% if (q) { %><input type="hidden" name="q" value="<%= q %>" /><% } %>
+              <select name="sort" onchange="this.form.submit()">
+                <option value="default" <%= activeSort === 'default' ? 'selected' : '' %>>Sort: Featured</option>
+                <option value="price-asc" <%= activeSort === 'price-asc' ? 'selected' : '' %>>Price: Low to High</option>
+                <option value="price-desc" <%= activeSort === 'price-desc' ? 'selected' : '' %>>Price: High to Low</option>
+                <option value="rating" <%= activeSort === 'rating' ? 'selected' : '' %>>Top Rated</option>
+              </select>
+            </form>
+          </div>
+
+          <% if (list.length === 0) { %>
+            <div class="empty-state">
+              <span class="empty-icon">🔍</span>
+              <h3>No laptops found</h3>
+              <p>Try a different search or category.</p>
+              <a href="/shop" class="btn btn-primary">Clear Filters</a>
+            </div>
+          <% } else { %>
+            <div class="product-grid">
+              <% list.forEach(p => { %>
+                <%- include('partials/product-card', { p }) %>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

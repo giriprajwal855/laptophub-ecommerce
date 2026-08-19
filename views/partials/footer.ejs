@@ -1,0 +1,61 @@
+</main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="logo-mark">LH</span>
+        <p>Premium laptops from the world's leading brands, delivered across Nepal with secure online payment.</p>
+        <div class="payment-badges">
+          <span class="badge badge-khalti">Khalti</span>
+          <span class="badge badge-esewa">eSewa</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="contact-item">
+          <span class="contact-ico">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <a href="https://maps.google.com/?q=Pokhara+Lakeside" target="_blank" rel="noopener">Pokhara lake-side</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-ico">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <a href="tel:+9779827118630">9827118630</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-ico">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          </span>
+          <a href="mailto:giriprajwal855@gmail.com">giriprajwal855@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Brands</h4>
+        <% brands.forEach(b => { %>
+          <a href="/brand/<%= b.slug %>"><%= b.name %></a>
+        <% }) %>
+      </div>
+
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="/shop">All Laptops</a>
+        <a href="/shop?cat=Gaming">Gaming</a>
+        <a href="/shop?cat=Ultrabook">Ultrabooks</a>
+        <a href="/shop?cat=Business">Business</a>
+        <a href="/shop?cat=Chromebook">Chromebooks</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 LaptopHub. All rights reserved.</span>
+      <span>Made with Node.js · Express · Khalti · eSewa</span>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="/js/main.js"></script>
+</body>
+</html>

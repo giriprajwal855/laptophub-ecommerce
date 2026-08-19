@@ -1,0 +1,76 @@
+<%- include('head') %>
+<% const specText = product ? Object.entries(product.specs || {}).map(([k, v]) => `${k}: ${v}`).join('\n') : ''; %>
+<% const categories = [...new Set(products.map(p => p.category))]; %>
+
+<div class="toolbar">
+  <a href="/admin/products" class="btn">← Back to Products</a>
+</div>
+
+<form action="<%= product ? '/admin/products/' + product.id : '/admin/products' %>" method="post" class="admin-form">
+  <div class="form-grid">
+    <label class="admin-field">
+      <span>Brand</span>
+      <input type="text" name="brand" list="brand-list" required value="<%= product ? product.brand : '' %>" />
+      <datalist id="brand-list">
+        <% brands.forEach(b => { %><option value="<%= b.name %>"><% }) %>
+      </datalist>
+    </label>
+
+    <label class="admin-field">
+      <span>Product Name</span>
+      <input type="text" name="name" required value="<%= product ? product.name : '' %>" />
+    </label>
+
+    <label class="admin-field">
+      <span>Price (NPR)</span>
+      <input type="number" name="price" min="0" step="500" required value="<%= product ? product.price : '' %>" />
+    </label>
+
+    <label class="admin-field">
+      <span>Old Price (NPR, optional)</span>
+      <input type="number" name="oldPrice" min="0" step="500" value="<%= product && product.oldPrice ? product.oldPrice : '' %>" />
+    </label>
+
+    <label class="admin-field">
+      <span>Category</span>
+      <input type="text" name="category" list="cat-list" required value="<%= product ? product.category : '' %>" />
+      <datalist id="cat-list">
+        <% categories.forEach(c => { %><option value="<%= c %>"><% }) %>
+      </datalist>
+    </label>
+
+    <label class="admin-field">
+      <span>Badge (optional)</span>
+      <input type="text" name="badge" placeholder="e.g. Best Seller" value="<%= product && product.badge ? product.badge : '' %>" />
+    </label>
+
+    <label class="admin-field">
+      <span>Rating (0 – 5)</span>
+      <input type="number" name="rating" min="0" max="5" step="0.1" value="<%= product ? product.rating : '4.0' %>" />
+    </label>
+
+    <label class="admin-field">
+      <span>Image Path</span>
+      <input type="text" name="image" placeholder="/images/official/lenovo-01.jpg" value="<%= product ? product.image : '' %>" />
+    </label>
+  </div>
+
+  <label class="admin-field">
+    <span>Specifications <em class="muted">(one per line: key: value)</em></span>
+    <textarea name="specs" rows="7" placeholder="display: 15.6&quot; FHD IPS (1920 × 1080)
+cpu: Intel Core i5-12500H
+ram: 16GB DDR4"><%= specText %></textarea>
+  </label>
+
+  <label class="admin-field">
+    <span>Description</span>
+    <textarea name="description" rows="3"><%= product ? product.description : '' %></textarea>
+  </label>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary"><%= product ? 'Save Changes' : 'Add Product' %></button>
+    <a href="/admin/products" class="btn">Cancel</a>
+  </div>
+</form>
+
+<%- include('foot') %>

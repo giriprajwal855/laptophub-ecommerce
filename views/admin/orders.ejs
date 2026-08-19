@@ -1,0 +1,59 @@
+<%- include('head') %>
+
+<% if (orders.length === 0) { %>
+  <div class="empty-state">
+    <p>No orders yet.</p>
+    <p class="empty-sub">Orders appear here once a Khalti or eSewa payment is completed.</p>
+  </div>
+<% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Order</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Items</th>
+        <th>Payment</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach(o => { %>
+        <tr>
+          <td class="mono"><%= o.orderId %></td>
+          <td>
+            <div><%= o.customer.name %></div>
+            <div class="muted"><%= o.customer.email %></div>
+            <div class="muted"><%= o.customer.phone %> · <%= o.customer.address %></div>
+          </td>
+          <td><%= formatPrice(o.amount) %></td>
+          <td>
+            <% (o.items || []).forEach(i => { %>
+              <div class="order-item"><%= i.product.name %> × <%= i.qty %></div>
+            <% }) %>
+          </td>
+          <td>
+            <div class="mono"><%= o.transactionId %></div>
+            <div class="muted mono">pidx: <%= o.pidx %></div>
+          </td>
+          <td><%= new Date(o.createdAt).toLocaleString() %></td>
+          <td><span class="status status-<%= o.status.toLowerCase() %>"><%= o.status %></span></td>
+          <td>
+            <form action="/admin/orders/<%= o.id %>/status" method="post" class="inline-form">
+              <select name="status" class="input">
+                <% orderStatuses.forEach(s => { %>
+                  <option value="<%= s %>" <%= s === o.status ? 'selected' : '' %>><%= s %></option>
+                <% }) %>
+              </select>
+              <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('foot') %>

@@ -1,0 +1,97 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1>Checkout</h1>
+      <p>Complete your order securely with Khalti or eSewa.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="checkout-layout">
+        <form action="/checkout" method="post" class="checkout-form" id="checkout-form">
+          <div class="form-section">
+            <h3>Shipping Information</h3>
+            <% if (currentUser) { %>
+              <p class="signed-in">Signed in as <strong><%= currentUser.name %></strong> (<%= currentUser.email %>)</p>
+            <% } %>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Ram Sharma" />
+              </div>
+              <div class="form-field">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="ram@example.com" />
+              </div>
+              <div class="form-field">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="9800000000" />
+              </div>
+              <div class="form-field">
+                <label for="address">Delivery Address *</label>
+                <input type="text" id="address" name="address" required placeholder="Street, City, Nepal" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Payment Method</h3>
+            <div class="pay-option">
+              <input type="radio" name="pay" id="pay-khalti" value="khalti" checked />
+              <label for="pay-khalti">
+                <span class="pay-logo khalti">K</span>
+                <span><strong>Khalti</strong><small>Pay with Khalti — Nepal's favourite digital wallet</small></span>
+              </label>
+            </div>
+            <div class="pay-option">
+              <input type="radio" name="pay" id="pay-esewa" value="esewa" />
+              <label for="pay-esewa">
+                <span class="pay-logo esewa">e</span>
+                <span><strong>eSewa</strong><small>Pay with eSewa — Nepal's leading online wallet</small></span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block pay-btn" id="pay-btn">
+            Pay <%= formatPrice(totals.total) %> with Khalti
+          </button>
+          <p class="form-note">You'll be redirected to the selected gateway's secure payment page to complete the transaction.</p>
+        </form>
+
+        <aside class="summary">
+          <h3>Your Order</h3>
+          <% totals.items.forEach(i => { %>
+            <div class="summary-item">
+              <span class="summary-img"><img src="<%= i.product.image %>" alt="" /></span>
+              <div class="summary-meta">
+                <strong><%= i.product.name %></strong>
+                <small>Qty: <%= i.qty %></small>
+              </div>
+              <span class="summary-price"><%= formatPrice(i.subtotal) %></span>
+            </div>
+          <% }) %>
+          <div class="summary-row"><span>Subtotal</span><span><%= formatPrice(totals.subtotal) %></span></div>
+          <div class="summary-row"><span>VAT (13%)</span><span><%= formatPrice(totals.tax) %></span></div>
+          <div class="summary-row"><span>Delivery</span><span><%= totals.delivery === 0 ? 'FREE' : formatPrice(totals.delivery) %></span></div>
+          <div class="summary-row total"><span>Total</span><span><%= formatPrice(totals.total) %></span></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var radios = document.querySelectorAll('input[name="pay"]');
+      var btn = document.getElementById('pay-btn');
+      function refresh() {
+        var v = document.querySelector('input[name="pay"]:checked');
+        btn.textContent = 'Pay <%= formatPrice(totals.total) %> with ' + (v && v.value === 'esewa' ? 'eSewa' : 'Khalti');
+      }
+      radios.forEach(function (r) { r.addEventListener('change', refresh); });
+      refresh();
+    })();
+  </script>
+
+<%- include('partials/footer') %>

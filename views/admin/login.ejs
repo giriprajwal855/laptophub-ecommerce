@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | LaptopHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="admin-login-body">
+  <form class="admin-login-card" action="/admin/login" method="post">
+    <div class="admin-login-logo">
+      <span class="admin-logo-mark">LH</span>
+      <span class="admin-logo-text">LaptopHub<em>Admin</em></span>
+    </div>
+    <p class="admin-login-sub">Sign in to manage your store</p>
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+    <label class="admin-field">
+      <span>Username</span>
+      <input type="text" name="username" required autofocus autocomplete="username" />
+    </label>
+    <label class="admin-field">
+      <span>Password</span>
+      <input type="password" name="password" required autocomplete="current-password" />
+    </label>
+    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    <a href="/" class="admin-back admin-back-center">← Back to store</a>
+  </form>
+</body>
+</html>

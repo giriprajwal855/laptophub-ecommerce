@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | LaptopHub</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text y='.9em' font-size='90'>💻</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">LH</span>
+        <span class="logo-text">Laptop<span>Hub</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a>
+        <a href="/shop" class="<%= currentPath === '/shop' ? 'active' : '' %>">Shop</a>
+        <div class="dropdown">
+          <button class="dropbtn">Brands <span class="chev">▾</span></button>
+          <div class="dropdown-content">
+            <% brands.forEach(b => { %>
+              <a href="/brand/<%= b.slug %>"><span class="brand-dot" style="background:<%= b.color %>"></span><%= b.name %></a>
+            <% }) %>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <form action="/shop" method="get" class="search-form">
+          <input type="text" name="q" placeholder="Search laptops…" value="<%= typeof q !== 'undefined' ? q : '' %>" />
+          <button type="submit" aria-label="Search">⌕</button>
+        </form>
+        <div class="nav-auth">
+          <% if (currentUser) { %>
+            <span class="user-name"><%= currentUser.name %></span>
+            <form action="/logout" method="post" class="logout-form">
+              <button type="submit" class="btn-link">Logout</button>
+            </form>
+          <% } else { %>
+            <a href="/login" class="nav-auth-link">Login</a>
+            <a href="/signup" class="btn btn-primary btn-sm">Sign Up</a>
+          <% } %>
+        </div>
+        <a href="/cart" class="cart-btn">
+          <span>Cart</span>
+          <span class="cart-count" id="cart-count"><%= cartCount %></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">

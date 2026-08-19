@@ -1,0 +1,29 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <section class="auth-page">
+    <div class="container">
+      <div class="auth-card">
+        <h1>Welcome back</h1>
+        <p>Log in to complete your purchase.</p>
+
+        <% if (error) { %><div class="form-alert"><%= error %></div><% } %>
+
+        <form action="/login" method="post" class="auth-form">
+          <input type="hidden" name="next" value="<%= next %>" />
+          <div class="form-field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com" autofocus />
+          </div>
+          <div class="form-field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="••••••••" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+        </form>
+
+        <p class="auth-alt">Don't have an account? <a href="/signup?next=<%= encodeURIComponent(next) %>">Create one</a></p>
+      </div>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

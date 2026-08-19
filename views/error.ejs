@@ -1,0 +1,14 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <section class="result-page">
+    <div class="container">
+      <div class="result-card failure">
+        <div class="result-icon">!</div>
+        <h1><%= title %></h1>
+        <% if (typeof message !== 'undefined') { %><p><%= message %></p><% } else { %><p>Something went wrong. Please try again.</p><% } %>
+        <a href="/" class="btn btn-primary">Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

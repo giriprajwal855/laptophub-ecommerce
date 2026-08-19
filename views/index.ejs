@@ -1,0 +1,70 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <span class="hero-badge">Flagship Pick</span>
+        <h1>Meet the <span><%= featured.name %></span></h1>
+        <p><%= featured.description %></p>
+        <div class="hero-price">
+          <span class="price"><%= formatPrice(featured.price) %></span>
+          <% if (featured.oldPrice) { %><span class="old-price"><%= formatPrice(featured.oldPrice) %></span><% } %>
+        </div>
+        <div class="hero-cta">
+          <a href="/product/<%= featured.id %>" class="btn btn-primary">Buy Now →</a>
+          <a href="/shop" class="btn btn-ghost">Browse All Laptops</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="<%= featured.image %>" alt="<%= featured.name %>" class="hero-img" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Shop by Brand</h2>
+        <a href="/shop" class="see-all">View all →</a>
+      </div>
+      <div class="brand-grid">
+        <% brands.forEach(b => { %>
+          <a href="/brand/<%= b.slug %>" class="brand-card">
+            <div class="brand-logo" style="color: <%= b.color %>"><%= b.name %></div>
+            <p><%= b.tagline %></p>
+            <span class="brand-count"><%= products.filter(p => p.brand === b.name).length %> laptops</span>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Best Sellers</h2>
+        <a href="/shop?sort=rating" class="see-all">Top rated →</a>
+      </div>
+      <div class="product-grid">
+        <% bestSellers.forEach(p => { %>
+          <%- include('partials/product-card', { p }) %>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>New Arrivals</h2>
+        <a href="/shop" class="see-all">Shop all →</a>
+      </div>
+      <div class="product-grid">
+        <% newArrivals.forEach(p => { %>
+          <%- include('partials/product-card', { p }) %>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

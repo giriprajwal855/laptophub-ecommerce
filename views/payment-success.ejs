@@ -1,0 +1,35 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <section class="result-page">
+    <div class="container">
+      <div class="result-card success">
+        <div class="result-icon">✓</div>
+        <h1>Payment Successful!</h1>
+        <p>Thank you, <strong><%= order.customer.name %></strong>. Your order has been confirmed and is being processed.</p>
+
+        <div class="result-details">
+          <div class="result-row"><span>Gateway</span><strong><%= order.gateway === 'esewa' ? 'eSewa' : 'Khalti' %></strong></div>
+          <div class="result-row"><span>Transaction ID</span><strong><%= order.transactionId || '—' %></strong></div>
+          <div class="result-row"><span>Payment ID (pidx)</span><strong><%= order.pidx || '—' %></strong></div>
+          <div class="result-row"><span>Order Reference</span><strong><%= order.purchaseOrderId || '—' %></strong></div>
+          <div class="result-row"><span>Amount Paid</span><strong><%= formatPrice(parseFloat(order.amount)) %></strong></div>
+          <div class="result-row"><span>Items</span><strong><%= order.items.length %></strong></div>
+          <div class="result-row"><span>Delivery To</span><strong><%= order.customer.address %></strong></div>
+        </div>
+
+        <h3 class="result-sub">Order Summary</h3>
+        <div class="result-items">
+          <% order.items.forEach(i => { %>
+            <div class="result-item">
+              <span><%= i.product.name %></span>
+              <span>× <%= i.qty %> — <%= formatPrice(i.subtotal) %></span>
+            </div>
+          <% }) %>
+        </div>
+
+        <a href="/shop" class="btn btn-primary btn-lg">Continue Shopping →</a>
+      </div>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

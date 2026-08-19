@@ -1,0 +1,60 @@
+<%- include('partials/header', { title, q: '' }) %>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1>Your Cart</h1>
+      <p><%= totals.items.length %> item(s) in your cart</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <% if (totals.items.length === 0) { %>
+        <div class="empty-state">
+          <span class="empty-icon">🛒</span>
+          <h3>Your cart is empty</h3>
+          <p>Looks like you haven't added any laptops yet.</p>
+          <a href="/shop" class="btn btn-primary">Browse Laptops →</a>
+        </div>
+      <% } else { %>
+        <div class="cart-layout">
+          <div class="cart-items">
+            <% totals.items.forEach(i => { %>
+              <div class="cart-row">
+                <a href="/product/<%= i.product.id %>" class="cart-img">
+                  <img src="<%= i.product.image %>" alt="<%= i.product.name %>" onerror="this.src='/images/products/pexels-374074.jpg'" />
+                </a>
+                <div class="cart-info">
+                  <span class="card-brand" style="color: <%= brands.find(b => b.name === i.product.brand).color %>"><%= i.product.brand %></span>
+                  <h3><a href="/product/<%= i.product.id %>"><%= i.product.name %></a></h3>
+                  <p class="card-spec"><%= i.product.specs.cpu %> · <%= i.product.specs.ram %></p>
+                  <span class="price"><%= formatPrice(i.product.price) %></span>
+                </div>
+                <form action="/cart/update" method="post" class="cart-qty">
+                  <input type="hidden" name="id" value="<%= i.product.id %>" />
+                  <input type="number" name="qty" value="<%= i.qty %>" min="0" max="99" onchange="this.form.submit()" />
+                </form>
+                <div class="cart-subtotal"><%= formatPrice(i.subtotal) %></div>
+                <form action="/cart/remove" method="post">
+                  <input type="hidden" name="id" value="<%= i.product.id %>" />
+                  <button class="cart-remove" aria-label="Remove">✕</button>
+                </form>
+              </div>
+            <% }) %>
+          </div>
+
+          <aside class="summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span><%= formatPrice(totals.subtotal) %></span></div>
+            <div class="summary-row"><span>VAT (13%)</span><span><%= formatPrice(totals.tax) %></span></div>
+            <div class="summary-row"><span>Delivery</span><span><%= totals.delivery === 0 ? 'FREE' : formatPrice(totals.delivery) %></span></div>
+            <div class="summary-row total"><span>Total</span><span><%= formatPrice(totals.total) %></span></div>
+            <a href="/checkout" class="btn btn-primary btn-block">Proceed to Checkout →</a>
+            <a href="/shop" class="btn btn-ghost btn-block">Continue Shopping</a>
+          </aside>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+<%- include('partials/footer') %>

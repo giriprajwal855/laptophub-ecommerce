@@ -1,0 +1,22 @@
+<div class="product-card">
+  <a href="/product/<%= p.id %>" class="card-img-wrap">
+    <% if (p.badge) { %><span class="card-badge"><%= p.badge %></span><% } %>
+    <% if (p.oldPrice) { %><span class="card-discount">-<%= Math.round((1 - p.price / p.oldPrice) * 100) %>%</span><% } %>
+    <img src="<%= p.image %>" alt="<%= p.name %>" loading="lazy" onerror="this.src='/images/products/pexels-374074.jpg'" />
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="card-brand" style="color: <%= brands.find(b => b.name === p.brand).color %>"><%= p.brand %></span>
+      <span class="card-rating">★ <%= p.rating.toFixed(1) %></span>
+    </div>
+    <h3 class="card-title"><a href="/product/<%= p.id %>"><%= p.name %></a></h3>
+    <p class="card-spec"><%= p.specs.cpu %> · <%= p.specs.ram %> · <%= p.specs.storage %></p>
+    <div class="card-bottom">
+      <div class="card-price">
+        <span class="price"><%= formatPrice(p.price) %></span>
+        <% if (p.oldPrice) { %><span class="old-price"><%= formatPrice(p.oldPrice) %></span><% } %>
+      </div>
+      <button class="add-cart" data-id="<%= p.id %>" aria-label="Add to cart">Add to Cart</button>
+    </div>
+  </div>
+</div>
